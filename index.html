@@ -3,471 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Badini Voice Studio — ستۆدیۆیا دەنگێ بادینی</title>
+  <title>Badini Voice Studio — رومی هەرکی</title>
   <style>
-    :root {
-      --bg: #0b0f17;
-      --panel: #131a26;
-      --panel-2: #192232;
-      --border: rgba(255, 255, 255, 0.09);
-      --text: #eef2f7;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-2: #22d3ee;
-      --ok: #34d399;
-      --warn: #fbbf24;
-      --err: #f87171;
-    }
-
-    * { box-sizing: border-box; }
-
+    * { box-sizing: border-box; font-family: Tahoma, Arial, sans-serif; }
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: Tahoma, "Noto Naskh Arabic", Arial, sans-serif;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.14), transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(34, 211, 238, 0.10), transparent 45%),
-        var(--bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+      padding: 16px;
+      background: #0f172a;
+      color: #f8fafc;
     }
-
-    .app {
-      width: 100%;
-      max-width: 720px;
-      display: grid;
-      gap: 16px;
-    }
-
-    header {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(56, 189, 248, 0.14);
-      color: var(--accent);
-      border: 1px solid rgba(56, 189, 248, 0.28);
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0 0 6px;
-      font-size: 22px;
-      letter-spacing: 0.2px;
-    }
-
-    .sub {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+    .box {
+      max-width: 640px;
+      margin: 0 auto;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
       padding: 18px;
-      display: grid;
-      gap: 14px;
     }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: bold;
-      color: var(--accent-2);
-      margin: 0;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    input[type="text"],
-    input[type="password"],
-    input[type="url"],
-    textarea,
-    select {
+    h1 { margin: 0 0 6px; font-size: 20px; color: #38bdf8; }
+    p.sub { margin: 0 0 16px; font-size: 13px; color: #cbd5e1; }
+    label { display: block; margin: 12px 0 6px; font-size: 14px; font-weight: bold; }
+    textarea, input[type="text"], input[type="file"] {
       width: 100%;
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px 12px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #f8fafc;
       font-size: 14px;
-      font-family: inherit;
-      outline: none;
     }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--accent);
-    }
-
-    textarea {
-      min-height: 92px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 560px) {
-      .row { grid-template-columns: 1fr; }
-    }
-
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
+    textarea { min-height: 110px; resize: vertical; }
+    .row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .half { flex: 1 1 180px; }
     button {
+      margin-top: 12px;
+      padding: 11px 14px;
       border: none;
-      border-radius: 10px;
-      padding: 11px 16px;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: bold;
       cursor: pointer;
-      font-family: inherit;
-      transition: 0.2s ease;
     }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #061018;
-    }
-
-    .btn-secondary {
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .range-box {
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-    }
-
-    .range-top {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--accent);
-    }
-
+    .btn-blue { background: #0284c7; color: #fff; flex: 1; }
+    .btn-green { background: #16a34a; color: #fff; flex: 1; }
+    .btn-gray { background: #475569; color: #fff; }
+    audio { width: 100%; margin-top: 12px; }
     .status {
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #0f172a;
+      border: 1px solid #334155;
       font-size: 13px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      line-height: 1.5;
-    }
-
-    .ok { color: var(--ok); }
-    .warn { color: var(--warn); }
-    .err { color: var(--err); }
-
-    audio {
-      width: 100%;
-      margin-top: 6px;
-    }
-
-    .hint {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <main class="app">
-    <header>
-      <span class="badge">Voice Cloning + Badini TTS</span>
-      <h1>ستۆدیۆیا دەنگێ بادینی</h1>
-      <p class="sub">
-        نمموونەیەکا دەنگی دابگرە یان تۆمار بکە، پاشی پەیڤ یان هەڤۆکەکێ ب بادینی بنڤیسە دا ب وی دەنگی بهێتە خویندن.
-      </p>
-    </header>
+  <div class="box">
+    <h1>ستۆدیۆیا دەنگێ بادینی — رومی هەرکی</h1>
+    <p class="sub">نموونەیا دەنگێ رومی هەرکی هەلبژێرە یان تۆمار بکە، تێکستێ بادینی بنڤیسە، و تاقی بکە.</p>
 
-    <!-- 1. Voice Sample -->
-    <section class="card">
-      <h2 class="card-title">۱. نموونەیا دەنگی (Voice Sample)</h2>
-      <div>
-        <label for="voiceFile">هەلبژارتنا فایلێ دەنگی (MP3 / WAV / M4A)</label>
-        <input type="file" id="voiceFile" accept="audio/*" />
+    <label for="voiceFile">١. نموونەیا دەنگی (فایلێ دەنگێ رومی هەرکی):</label>
+    <input id="voiceFile" type="file" accept="audio/*" />
+
+    <div class="row">
+      <button type="button" class="btn-gray" id="recBtn">تۆمارکرن ب مایکرۆفۆنێ</button>
+      <button type="button" class="btn-gray" id="stopRecBtn" disabled>راوەستاندنا تۆمارکرنێ</button>
+    </div>
+    <audio id="samplePlayer" controls></audio>
+
+    <label for="badiniText">٢. تێکستێ بادینی:</label>
+    <textarea id="badiniText" placeholder="ل ڤێرە تێکستێ خۆ یێ بادینی بنڤیسە..."></textarea>
+
+    <div class="row">
+      <div class="half">
+        <label for="rateInput">خێرایی (0.5 - 1.5):</label>
+        <input id="rateInput" type="text" value="1.0" />
       </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn-secondary" id="recordBtn">🎙️ تۆمارکرنا دەنگی</button>
-        <button type="button" class="btn-secondary" id="stopBtn" disabled>⏹️ راوەستاندن</button>
+      <div class="half">
+        <label for="pitchInput">تۆن (0.5 - 1.5):</label>
+        <input id="pitchInput" type="text" value="1.0" />
       </div>
+    </div>
 
-      <audio id="samplePreview" controls></audio>
-      <div class="hint">
-        بۆ ئەنجامەکێ باشتر: ۱۰–۲۰ چرکەیێن دەنگەکێ روون و بێ-دەنگەدەنگ بکاربینە.
-      </div>
-    </section>
+    <label for="endpointInput">٣. Endpoint یێ API / Proxy (ئارەزوومەندانە):</label>
+    <input id="endpointInput" type="text" value="https://badini-voice-proxy.samrrekani72.workers.dev" />
 
-    <!-- 2. Badini Text -->
-    <section class="card">
-      <h2 class="card-title">۲. نڤیسینا پەیڤ یان هەڤۆکێ ب بادینی</h2>
+    <div class="row">
+      <button type="button" class="btn-blue" id="speakBtn">خویندنا تێکستی (وێبگەڕ)</button>
+      <button type="button" class="btn-green" id="sendApiBtn">هنارتن بۆ Endpoint</button>
+    </div>
 
-      <div class="row">
-        <div>
-          <label for="scriptMode">شێوازێ نڤیسینێ</label>
-          <select id="scriptMode">
-            <option value="kurdish-ar">کوردی (پیتێن عەرەبی)</option>
-            <option value="kurdish-lat">فۆنەتیک (پیتێن لاتینی — بۆ دەربڕینا وردتر)</option>
-          </select>
-        </div>
-        <div>
-          <label for="styleTone">شێوازێ دەربڕینێ</label>
-          <select id="styleTone">
-            <option value="natural">ئاسایی و رەسەن</option>
-            <option value="clear">روون و هێدی</option>
-            <option value="expressive">چالاک و زیندوو</option>
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <label for="badiniText">تێکستێ بادینی</label>
-        <textarea id="badiniText" placeholder="بۆ نموونە: سڵاڤ برا، ئەڤرۆ کەشوهەوایێ دهۆکێ گەلەک یێ خۆشە..."></textarea>
-      </div>
-
-      <div class="row">
-        <div class="range-box">
-          <div class="range-top">
-            <span>خێرایی</span>
-            <span id="speedVal">1.0x</span>
-          </div>
-          <input type="range" id="speed" min="0.7" max="1.4" step="0.05" value="1.0" />
-        </div>
-
-        <div class="range-box">
-          <div class="range-top">
-            <span>تۆنا دەنگی</span>
-            <span id="pitchVal">0</span>
-          </div>
-          <input type="range" id="pitch" min="-5" max="5" step="1" value="0" />
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Engine / API Connection -->
-    <section class="card">
-      <h2 class="card-title">۳. گرێدانا مۆدێلێ دەنگی (API / Proxy)</h2>
-      <div>
-        <label for="apiUrl">لینکێ Endpoint یێ خزمەتگوزاری یان Proxy (بۆ نموونە Worker / API)</label>
-        <input type="url" id="apiUrl" placeholder="https://your-voice-api.example.com/generate" />
-      </div>
-      <div>
-        <label for="apiKey">کلیلێ API (بۆ تاقیکرنەوەیێ ب تنێ — ل سەر GitHub نەهێلە)</label>
-        <input type="password" id="apiKey" placeholder="••••••••••••••••••••" />
-      </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn-primary" id="generateBtn">✨ دروستکرنا دەنگی</button>
-        <button type="button" class="btn-secondary" id="demoBtn">🔊 تاقیکرنا دەنگێ وێبگەڕی</button>
-      </div>
-
-      <div id="statusBox" class="status">
-        دۆخ: ئامادەیە بۆ وەرگرتنا نموونەیا دەنگی و نڤیسینا بادینی.
-      </div>
-
-      <audio id="resultAudio" controls></audio>
-      <a id="downloadLink" download="badini-voice.wav" style="display:none; color: var(--accent); font-size: 13px;">
-        ⬇️ داگرتنا فایلێ دەنگی
-      </a>
-    </section>
-  </main>
+    <audio id="resultPlayer" controls></audio>
+    <div class="status" id="statusBox">ئامادەیە بۆ کارکرن.</div>
+  </div>
 
   <script>
     const voiceFileInput = document.getElementById("voiceFile");
-    const recordBtn = document.getElementById("recordBtn");
-    const stopBtn = document.getElementById("stopBtn");
-    const samplePreview = document.getElementById("samplePreview");
-
-    const scriptMode = document.getElementById("scriptMode");
-    const styleTone = document.getElementById("styleTone");
+    const samplePlayer = document.getElementById("samplePlayer");
+    const resultPlayer = document.getElementById("resultPlayer");
     const badiniText = document.getElementById("badiniText");
-
-    const speedInput = document.getElementById("speed");
-    const pitchInput = document.getElementById("pitch");
-    const speedVal = document.getElementById("speedVal");
-    const pitchVal = document.getElementById("pitchVal");
-
-    const apiUrlInput = document.getElementById("apiUrl");
-    const apiKeyInput = document.getElementById("apiKey");
-    const generateBtn = document.getElementById("generateBtn");
-    const demoBtn = document.getElementById("demoBtn");
+    const rateInput = document.getElementById("rateInput");
+    const pitchInput = document.getElementById("pitchInput");
+    const endpointInput = document.getElementById("endpointInput");
     const statusBox = document.getElementById("statusBox");
-    const resultAudio = document.getElementById("resultAudio");
-    const downloadLink = document.getElementById("downloadLink");
+    const recBtn = document.getElementById("recBtn");
+    const stopRecBtn = document.getElementById("stopRecBtn");
+    const speakBtn = document.getElementById("speakBtn");
+    const sendApiBtn = document.getElementById("sendApiBtn");
 
-    let sampleBlob = null;
+    let selectedAudioBlob = null;
+    let selectedAudioName = "rumi_herki_sample.webm";
     let mediaRecorder = null;
-    let recordedChunks = [];
+    let chunks = [];
 
-    function setStatus(msg, cls = "") {
-      statusBox.className = "status " + cls;
-      statusBox.textContent = "دۆخ: " + msg;
+    function setStatus(msg) {
+      statusBox.textContent = msg;
     }
 
-    speedInput.addEventListener("input", () => {
-      speedVal.textContent = Number(speedInput.value).toFixed(2) + "x";
-    });
-
-    pitchInput.addEventListener("input", () => {
-      pitchVal.textContent = pitchInput.value;
-    });
-
-    voiceFileInput.addEventListener("change", (e) => {
-      const file = e.target.files?.[0];
+    voiceFileInput.addEventListener("change", () => {
+      const file = voiceFileInput.files[0];
       if (!file) return;
-      sampleBlob = file;
-      samplePreview.src = URL.createObjectURL(file);
-      setStatus("فایلێ دەنگی هاتە هەلبژارتن (" + file.name + ").", "ok");
+      selectedAudioBlob = file;
+      selectedAudioName = file.name;
+      samplePlayer.src = URL.createObjectURL(file);
+      setStatus("فایلێ دەنگی هاتە هەلبژارتن: " + file.name);
     });
 
-    recordBtn.addEventListener("click", async () => {
+    recBtn.addEventListener("click", async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        recordedChunks = [];
+        chunks = [];
         mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = (ev) => {
-          if (ev.data.size > 0) recordedChunks.push(ev.data);
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) chunks.push(e.data);
         };
-
         mediaRecorder.onstop = () => {
-          sampleBlob = new Blob(recordedChunks, { type: "audio/webm" });
-          samplePreview.src = URL.createObjectURL(sampleBlob);
+          selectedAudioBlob = new Blob(chunks, { type: "audio/webm" });
+          selectedAudioName = "recorded_voice.webm";
+          samplePlayer.src = URL.createObjectURL(selectedAudioBlob);
           stream.getTracks().forEach((t) => t.stop());
-          setStatus("تۆمارکرنا دەنگی ب دوماهی هات و ئامادەیە.", "ok");
+          setStatus("تۆمارکرنا دەنگی ب دوماهی هات و ئامادەیە.");
         };
-
         mediaRecorder.start();
-        recordBtn.disabled = true;
-        stopBtn.disabled = false;
-        setStatus("یێ دەنگ دهێتە تۆمارکرن... ب ئاخڤە.", "warn");
+        recBtn.disabled = true;
+        stopRecBtn.disabled = false;
+        setStatus("دەنگ دهێتە تۆمارکرن...");
       } catch (err) {
-        setStatus("دەستگەهشتن ب مایکرۆفۆنێ نەهاتە دان یان رێک پێ نەهاتە دان.", "err");
+        setStatus("خەلەتی د ڤەکرنا مایکرۆفۆنێ دا: " + err.message);
       }
     });
 
-    stopBtn.addEventListener("click", () => {
+    stopRecBtn.addEventListener("click", () => {
       if (mediaRecorder && mediaRecorder.state !== "inactive") {
         mediaRecorder.stop();
       }
-      recordBtn.disabled = false;
-      stopBtn.disabled = true;
+      recBtn.disabled = false;
+      stopRecBtn.disabled = true;
     });
 
-    demoBtn.addEventListener("click", () => {
-      const txt = badiniText.value.trim();
-      if (!txt) {
-        setStatus("بەری تاقیکرنێ تێکستەکێ ب بادینی بنڤیسە.", "warn");
+    speakBtn.addEventListener("click", () => {
+      const text = badiniText.value.trim();
+      if (!text) {
+        setStatus("هیڤیە تێکستەکێ بادینی بنڤیسە.");
         return;
       }
       if (!("speechSynthesis" in window)) {
-        setStatus("وێبگەڕێ تە پشتگیرییا SpeechSynthesis ناکەت.", "err");
+        setStatus("وێبگەڕێ تە پشتگیرییا SpeechSynthesis ناکەت.");
         return;
       }
       window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(txt);
-      utter.rate = Number(speedInput.value);
-      utter.pitch = 1 + Number(pitchInput.value) * 0.08;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = parseFloat(rateInput.value) || 1.0;
+      utter.pitch = parseFloat(pitchInput.value) || 1.0;
+      utter.onstart = () => setStatus("تێکست دهێتە خویندن...");
+      utter.onend = () => setStatus("خویندنا تێکستی ب دوماهی هات.");
+      utter.onerror = (e) => setStatus("خەلەتی د خویندنا دەنگی دا: " + e.error);
       window.speechSynthesis.speak(utter);
-      setStatus("تاقیکرنا دەنگێ بنەڕەتی یێ وێبگەڕی دەست پێ کر (بۆ لاساییکرنا دەنگی پێدڤی ب API یە).", "warn");
     });
 
-    generateBtn.addEventListener("click", async () => {
-      const txt = badiniText.value.trim();
-      const endpoint = apiUrlInput.value.trim();
-      const key = apiKeyInput.value.trim();
-
-      if (!sampleBlob) {
-        setStatus("هیڤیدارم بەری دروستکرنێ فایلەکێ دەنگی هەلبژێری یان تۆمار بکەی.", "warn");
-        return;
-      }
-      if (!txt) {
-        setStatus("تێکستێ بادینی یێ ڤالایە؛ پەیڤ یان هەڤۆکەکێ بنڤیسە.", "warn");
-        return;
-      }
+    sendApiBtn.addEventListener("click", async () => {
+      const text = badiniText.value.trim();
+      const endpoint = endpointInput.value.trim();
       if (!endpoint) {
-        setStatus("لینکێ Endpoint یێ مۆدێلێ دەنگی بنڤیسە دا داخوازی بهێتە هنارتن.", "warn");
+        setStatus("لینکێ Endpoint یێ بەتاڵە.");
+        return;
+      }
+      if (!text) {
+        setStatus("تێکستێ بادینی بنڤیسە.");
         return;
       }
 
-      generateBtn.disabled = true;
-      setStatus("نموونەیا دەنگی و تێکستێ بادینی دهێنە هنارتن بۆ مۆدێلێ دەنگی...", "warn");
+      setStatus("داخوازی دهێتە هنارتن بۆ: " + endpoint);
+      const formData = new FormData();
+      formData.append("text", text);
+      formData.append("rate", rateInput.value || "1.0");
+      formData.append("pitch", pitchInput.value || "1.0");
+      if (selectedAudioBlob) {
+        formData.append("voice_sample", selectedAudioBlob, selectedAudioName);
+      }
 
       try {
-        const formData = new FormData();
-        formData.append("voice_sample", sampleBlob, "sample.wav");
-        formData.append("text", txt);
-        formData.append("script_mode", scriptMode.value);
-        formData.append("tone", styleTone.value);
-        formData.append("speed", speedInput.value);
-        formData.append("pitch", pitchInput.value);
-
-        const headers = {};
-        if (key) headers["Authorization"] = "Bearer " + key;
-
         const res = await fetch(endpoint, {
           method: "POST",
-          headers,
-          body: formData
+          body: formData,
         });
-
+        const contentType = res.headers.get("content-type") || "";
         if (!res.ok) {
-          throw new Error("HTTP " + res.status);
+          const errText = await res.text();
+          setStatus("بەرسڤ (" + res.status + "): " + errText);
+          return;
         }
-
-        const audioBlob = await res.blob();
-        const url = URL.createObjectURL(audioBlob);
-        resultAudio.src = url;
-        resultAudio.play().catch(() => {});
-
-        downloadLink.href = url;
-        downloadLink.style.display = "inline-block";
-        setStatus("دەنگ ب سەرکەفتیانە هاتە دروستکرن!", "ok");
+        if (contentType.includes("audio")) {
+          const blob = await res.blob();
+          resultPlayer.src = URL.createObjectURL(blob);
+          resultPlayer.play();
+          setStatus("فایلێ دەنگی هات و دهێتە لێدان.");
+        } else {
+          const dataText = await res.text();
+          setStatus("بەرسڤا سێرڤەری:\n" + dataText);
+        }
       } catch (err) {
-        setStatus("هنارتن سەرنەکەفت (" + err.message + "). پشتڕاست بە کو Endpoint یێ چالاکە و CORS یێ ڤەکری یە.", "err");
-      } finally {
-        generateBtn.disabled = false;
+        setStatus("خەلەتی د پەیوەندییا نەتۆرکێ دا: " + err.message);
       }
     });
   </script>
